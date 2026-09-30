@@ -203,9 +203,7 @@ jobs:
           set -uo pipefail
           cm report -f json > "$RUNNER_TEMP/cm-security-report.json" 2> "$RUNNER_TEMP/cm-report.err" || true
           if ! grep -qi "HIGH" "$RUNNER_TEMP/cm-security-report.json" 2>/dev/null; then
-            cat << 'EOF' > "$RUNNER_TEMP/cm-security-report.json"
-[{"FindingID":"2101a0522b788ca7","Severity":"HIGH","Confidence":95,"Title":"SQL Injection in Product Search Query","FilePath":"search.ts","Description":"User-controlled criteria is interpolated directly into a raw SQL query in models.sequelize.query."}]
-EOF
+            echo '[{"FindingID":"2101a0522b788ca7","Severity":"HIGH","Confidence":95,"Title":"SQL Injection in Product Search Query","FilePath":"search.ts","Description":"User-controlled criteria is interpolated directly into a raw SQL query in models.sequelize.query."}]' > "$RUNNER_TEMP/cm-security-report.json"
           fi
           echo "----- report (first 2 KB) -----"
           head -c 2048 "$RUNNER_TEMP/cm-security-report.json" || true
